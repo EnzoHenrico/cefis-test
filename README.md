@@ -4,7 +4,10 @@
 ### Tecnologias utilizadas
 - Node.js 20.10.0 LTS
 - Next.js 14
+- NextAuth 4.0
 - Typescript
+- Booststraps 5.3
+- Pisma ORM
 - MySQL
 
 ## Instalação local
@@ -19,3 +22,4 @@ Para executar o projeto localmente basta executar os seguintes comandos no diret
 - Para iniciar o servidor: `npm run start`
 
 Após a inicialização do servidor, o app estará rodando no http://localhost:3000
+

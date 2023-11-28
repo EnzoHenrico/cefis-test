@@ -37,7 +37,7 @@ export default function CourseInfo() {
   return(
   <>
     <h1>{courseData?.title ?? "Título do cruso"}</h1>
-    <p>{courseData.description ?? "Sem descrição."}</p>
+    <p>{courseData?.description ?? "Sem descrição."}</p>
     <QuestionSection courseId={courseId}/>
   </>
   )

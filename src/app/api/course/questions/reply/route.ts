@@ -24,10 +24,10 @@ export async function GET(request: NextRequest) {
   }
 }
 
+// Create a new reply
 export async function POST(request: NextRequest) {
-  const data: Reply = await request.json()
-
   try {
+    const data: Reply = await request.json()
     const prismaResponse: Reply | null = await PrismaInstance.reply.create({ data })
     return NextResponse.json(prismaResponse)
   } catch (error) {

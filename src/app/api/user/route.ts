@@ -1,5 +1,5 @@
 import { User } from "@prisma/client"
-import { PrismaInstance } from "@/prisma/client"
+import { PrismaInstance } from "../../../../prisma/client"
 import { NextRequest, NextResponse } from "next/server"
 
 // Find Users 
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     const prismaResponse: User[] = await PrismaInstance.user.findMany()
     return NextResponse.json(prismaResponse)
   } catch (error) {
-    return NextResponse.json({ ERROR: error })
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }
 
@@ -43,12 +43,12 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json(prismaResponse)
   } catch (error) {
-    return NextResponse.json({ ERROR: error }) 
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }
 
 // Update user info
-export async function UPDATE(request: NextRequest) {
+export async function PATCH(request: NextRequest) {
   try {
     const data: User = await request.json()
     const prismaResponse = await PrismaInstance.user.update({ 
@@ -62,7 +62,7 @@ export async function UPDATE(request: NextRequest) {
 
     return NextResponse.json(prismaResponse)
   } catch (error) {
-    return NextResponse.json({ ERROR: error }) 
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }
 
@@ -70,7 +70,6 @@ export async function UPDATE(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     const data: User = await request.json()
-    console.log(data)
     
     const prismaResponse = await PrismaInstance.user.delete({ 
       where: {
@@ -80,6 +79,6 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json(prismaResponse)
   } catch (error) {
-    return NextResponse.json({ ERROR: error }) 
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }

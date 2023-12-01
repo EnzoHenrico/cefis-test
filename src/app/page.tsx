@@ -1,9 +1,9 @@
 'use client'
 
-import CoursesList from "./components/Home/CoursesList";
-import { useSession } from "next-auth/react";
+import CoursesList from "./components/Home/CoursesList"
+import { useSession } from "next-auth/react"
 import './globals.css'
-import { redirect } from "next/navigation";
+import { redirect } from "next/navigation"
 
 export default function Home() {
   const { data: session } = useSession({
@@ -12,7 +12,7 @@ export default function Home() {
       redirect('api/auth/signin')
     }
   }) 
-
+  
   return (
    <main>
     <h1>{`Hello! ${session?.user?.name ?? 'User'}`}</h1>

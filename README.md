@@ -1,7 +1,11 @@
 ## Informações
+
 ### Link de acesso
+
 - https://cefis-test-deploy.vercel.app/
+
 ### Tecnologias utilizadas
+
 - Node.js 20.10.0 LTS
 - Next.js 14
 - NextAuth 4.0
@@ -11,10 +15,13 @@
 - MySQL
 
 ## Instalação local
+
 ### Requisitos
+
 - Node.js 18.17^
 
 ### Passo a passo
+
 Para executar o projeto localmente basta renomear o arquivo `.env.example` para `.env` e popular com as chaves necessárias.
 
 Em seguida executar, no diretório raiz, os seguintes comandos:

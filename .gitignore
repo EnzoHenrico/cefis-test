@@ -7,11 +7,11 @@
 .yarn/install-state.gz
 
 # testing
-/coverage
+packages/client/coverage
 
 # next.js
-/.next/
-/out/
+packages/client/.next/
+packages/client/out/
 
 # production
 /build
@@ -35,3 +35,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+dist

@@ -1,33 +1,44 @@
-import { Server } from "socket.io";
-import { createServer } from "http";
-import "dotenv/config";
+import { Server } from "socket.io"
+import { createServer } from "http"
+import {
+  ClientToServerEvents,
+  InterServerEvents,
+  ServerToClientEvents,
+  SocketData,
+} from "@cefis_test/shared/socketTypes.js"
+import "dotenv/config"
 
-const server = createServer();
+const server = createServer()
 
-const io = new Server(server, {
+const io = new Server<
+  ClientToServerEvents,
+  ServerToClientEvents,
+  InterServerEvents,
+  SocketData
+>(server, {
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
-});
+})
 
 // Handle socket connections
-io.on("connection", async (socket) => {
-  // Greet a user connection
-  socket.emit("hello", `User ${socket.id} connected on server.`);
+io.on("connection", (socket) => {
+  // Connection logs
+  console.log(`User ${socket.id} connected on server.`)
 
-  // Broadcast messages
+  socket.on("disconnect", (reason) => {
+    console.log(`User ${socket.id} disconnected: ${reason}.`)
+  })
+
+  // Trade client messages
   socket.on("message", (message) => {
-    io.emit("response-message", { message });
-  });
-});
+    io.emit("responseMessage", message)
+  })
+})
 
-io.on("disconnect", (socket) => {
-  console.log(`User ${socket.id} disconnected!.`);
-});
-
-const PORT = process.env.SERVER_PORT || 3001;
+const PORT = process.env.SERVER_PORT || 3001
 
 server.listen(PORT, () => {
-  console.log(`Socket.io server is running on port ${PORT}`);
-});
+  console.log(`Socket.io server is running on port ${PORT}`)
+})

@@ -13,6 +13,7 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
+    "@cefis_test/shared": "*",
     "@prisma/client": "^5.6.0",
     "bootstrap": "^5.3.2",
     "next": "14.0.3",

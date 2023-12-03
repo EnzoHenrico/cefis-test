@@ -13,6 +13,7 @@
 - Booststraps 5.3
 - Pisma ORM
 - MySQL
+- Socket.io
 
 ## Instalação local
 

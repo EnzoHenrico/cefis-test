@@ -1,17 +1,17 @@
-import { Question, Reply } from "@prisma/client";
-import { FormEventHandler, useEffect, useState } from "react";
-import ReplyData from "./ReplyData";
-import { useSession } from "next-auth/react";
+import { Question, Reply } from "@prisma/client"
+import { FormEventHandler, useEffect, useState } from "react"
+import ReplyData from "./ReplyData"
+import { useSession } from "next-auth/react"
 
 export default function QuestionBody({
   question,
   canReply,
 }: {
-  question: Question;
-  canReply: Boolean;
+  question: Question
+  canReply: Boolean
 }) {
-  const [replyData, setReplyData] = useState({} as Reply);
-  const { data: session } = useSession();
+  const [replyData, setReplyData] = useState({} as Reply)
+  const { data: session } = useSession()
 
   const getReply = async () => {
     try {
@@ -20,33 +20,33 @@ export default function QuestionBody({
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
-        },
-      );
+        }
+      )
 
-      const reply = await response.json();
+      const reply = await response.json()
       if (reply) {
-        setReplyData(reply);
+        setReplyData(reply)
       }
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
   const createReply = async (replyData: Partial<Reply>) => {
     const response: Response = await fetch("/api/course/questions/reply", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(replyData),
-    });
+    })
 
     if (!response.ok) {
-      alert("Erro ao responder mensagem");
-      return {} as Reply;
+      alert("Erro ao responder mensagem")
+      return {} as Reply
     }
 
-    const reply: Reply = await response.json();
-    return reply;
-  };
+    const reply: Reply = await response.json()
+    return reply
+  }
 
   const updateQuestion = async (questionData: Partial<Question>) => {
     const response: Response = await fetch(
@@ -55,50 +55,56 @@ export default function QuestionBody({
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(questionData),
-      },
-    );
+      }
+    )
 
     if (!response.ok) {
-      alert("Erro ao atualizar resposta");
-      return null;
+      alert("Erro ao atualizar resposta")
+      return null
     }
 
-    return (await response.json()) as Question;
-  };
+    return (await response.json()) as Question
+  }
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const content = formData.get("replyTextArea")?.toString();
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const content = formData.get("replyTextArea")?.toString()
+    const textField = e.currentTarget["replyTextArea"]
 
     try {
       const replyData: Partial<Reply> = {
         content,
         authorName: session?.user.name,
-      };
-      const reply: Reply = await createReply(replyData);
+      }
+      const reply: Reply = await createReply(replyData)
 
       if (!reply) {
-        return null;
+        return null
       }
 
       const questionData: Partial<Question> = {
         replied: true,
         replyId: reply.id,
-      };
+      }
 
-      await updateQuestion(questionData);
-      window.location.reload();
+      await updateQuestion(questionData)
+
+      // Clean field
+      if (textField) {
+        textField.value = ""
+      }
+      window.location.reload()
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
   useEffect(() => {
     if (question.replied) {
-      getReply();
+      getReply()
     }
-  }, []);
+  }, [])
 
   return (
     <div className="card text-bg mb-3">
@@ -131,5 +137,5 @@ export default function QuestionBody({
         )}
       </div>
     </div>
-  );
+  )
 }

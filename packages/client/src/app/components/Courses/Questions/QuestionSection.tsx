@@ -6,82 +6,88 @@ import {
   useContext,
   useEffect,
   useState,
-} from "react";
-import QuestionBody from "./QuestionData";
-import { Question } from "@prisma/client";
-import { useSession } from "next-auth/react";
+} from "react"
+import QuestionBody from "./QuestionData"
+import { Question } from "@prisma/client"
+import { useSession } from "next-auth/react"
 
 export default function QuestionSection({ courseId }: { courseId: string }) {
-  const [questionsList, setQuestionsList] = useState([] as Question[]);
-  const [canReply, setIfCanReply] = useState(false);
-  const { data: session } = useSession();
-  const userId = session?.user.id;
+  const [questionsList, setQuestionsList] = useState([] as Question[])
+  const [canReply, setIfCanReply] = useState(false)
+  const { data: session } = useSession()
+  const userId = session?.user.id
 
   // Get all questions from DB
   const getQuestions = async () => {
-    const url = `api/course/questions?courseId=${courseId}`;
+    const url = `api/course/questions?courseId=${courseId}`
     try {
       const response: Response = await fetch(url, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-      });
-      setQuestionsList(await response.json());
+      })
+      setQuestionsList(await response.json())
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
   const getUserRole = async () => {
     if (!userId) {
-      return;
+      return
     }
     try {
       const response: Response = await fetch(`/api/user?id=${userId}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-      });
-      const user = await response.json();
+      })
+      const user = await response.json()
 
-      setIfCanReply(user.role === "teacher");
+      setIfCanReply(user.role === "teacher")
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const content = formData.get("questionTextArea")?.toString();
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const content = formData.get("questionTextArea")?.toString()
+    const textField = e.currentTarget["questionTextArea"]
 
     const data: Partial<Question> = {
       content,
       courseId: parseInt(courseId),
-    };
+    }
 
     try {
       const response: Response = await fetch("/api/course/questions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-      });
+      })
 
       if (!response.ok) {
-        alert("Erro ao enviar mensagem");
+        alert("Erro ao enviar mensagem")
       }
 
-      getQuestions();
+      getQuestions()
+
+      // Clean field
+      if (textField) {
+        textField.value = ""
+      }
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
   useEffect(() => {
-    getQuestions();
-  }, []);
+    getQuestions()
+  }, [])
 
   useEffect(() => {
-    getUserRole();
-  }, [userId]);
+    getUserRole()
+  }, [userId])
 
   return (
     <>
@@ -119,5 +125,5 @@ export default function QuestionSection({ courseId }: { courseId: string }) {
         )}
       </section>
     </>
-  );
+  )
 }

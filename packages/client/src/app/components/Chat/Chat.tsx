@@ -19,15 +19,19 @@ type MessageData = {
   username: string
   time: string
 }
+const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL
 
 export default function Chat() {
-  const serverUrl = process.env.SERVER_URL || ""
   const socket = useRef<Socket<ServerToClientEvents, ClientToServerEvents>>()
   const lastMessageDiv = useRef<HTMLDivElement>(null)
   const [history, setHistory] = useState<MessageData[]>()
   const { data: session } = useSession()
 
   useEffect(() => {
+    if (!serverUrl) {
+      throw new Error("Environment variable not set")
+    }
+
     const newSocket: Socket<ServerToClientEvents, ClientToServerEvents> =
       io(serverUrl)
     socket.current = newSocket

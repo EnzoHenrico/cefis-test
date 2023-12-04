@@ -21,7 +21,7 @@ type MessageData = {
 }
 
 export default function Chat() {
-  const serverUrl: string = process.env.SERVER_URL || "http://localhost:3001"
+  const serverUrl = process.env.SERVER_URL || ""
   const socket = useRef<Socket<ServerToClientEvents, ClientToServerEvents>>()
   const lastMessageDiv = useRef<HTMLDivElement>(null)
   const [history, setHistory] = useState<MessageData[]>()

@@ -9,6 +9,7 @@ import {
 import "dotenv/config"
 
 const server = createServer()
+const appUrl = process.env.APP_URL
 
 const io = new Server<
   ClientToServerEvents,
@@ -17,20 +18,13 @@ const io = new Server<
   SocketData
 >(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: appUrl,
     methods: ["GET", "POST"],
   },
 })
 
 // Handle socket connections
 io.on("connection", (socket) => {
-  // Connection logs
-  console.log(`User ${socket.id} connected on server.`)
-
-  socket.on("disconnect", (reason) => {
-    console.log(`User ${socket.id} disconnected: ${reason}.`)
-  })
-
   // Trade client messages
   socket.on("message", (message, username, time) => {
     const formatedTime = new Intl.DateTimeFormat("pt-BR", {
@@ -49,7 +43,7 @@ io.on("connection", (socket) => {
   })
 })
 
-const PORT = process.env.SERVER_PORT || 3001
+const PORT = process.env.SERVER_PORT
 
 server.listen(PORT, () => {
   console.log(`Socket.io server is running on port ${PORT}`)

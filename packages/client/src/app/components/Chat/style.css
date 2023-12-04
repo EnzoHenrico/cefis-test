@@ -1,0 +1,38 @@
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+.chat > :first-child {
+  margin-top: auto !important;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  background-color: #d0e8ff;
+  padding: 0.5rem 1rem;
+  margin: 0.25rem;
+  border-radius: inherit;
+  cursor: default;
+  text-align: start;
+}
+
+.send {
+  background-color: #a7faa7;
+  align-self: end;
+}
+
+.received {
+  align-self: start;
+}
+
+.send small {
+  display: none;
+}
+
+.message .received small {
+  font-weight: bold;
+  color: #075ad2;
+}

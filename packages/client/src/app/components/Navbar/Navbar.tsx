@@ -1,14 +1,7 @@
-import { CSSProperties } from "react"
-
 function Navbar() {
-  const containerStyle: CSSProperties = {
-    borderRadius: "var(--bs-border-radius)",
-    backgroundColor: "#f2f2f2",
-  }
-
   return (
     <>
-      <nav className="navbar navbar-expand-lg" style={containerStyle}>
+      <nav className="navbar navbar-expand-lg bg-body-tertiary rounded-2">
         <div className="container-fluid collapse navbar-collapse">
           <a className="navbar-brand" href="/">
             Cursos.com

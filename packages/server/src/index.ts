@@ -32,8 +32,20 @@ io.on("connection", (socket) => {
   })
 
   // Trade client messages
-  socket.on("message", (message) => {
-    io.emit("responseMessage", message)
+  socket.on("message", (message, username, time) => {
+    const formatedTime = new Intl.DateTimeFormat("pt-BR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+    }).format(time)
+
+    io.emit("responseMessage", {
+      message,
+      username,
+      time: formatedTime,
+    })
   })
 })
 

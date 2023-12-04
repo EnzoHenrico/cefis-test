@@ -5,7 +5,8 @@ export interface ServerToClientEvents {
   responseMessage: (data: {
     message: string
     username: string
-    time: string
+    fullTime: string
+    shortTime: string
   }) => void
 }
 

@@ -27,7 +27,7 @@ const io = new Server<
 io.on("connection", (socket) => {
   // Trade client messages
   socket.on("message", (message, username, time) => {
-    const formatedTime = new Intl.DateTimeFormat("pt-BR", {
+    const fullTime = new Intl.DateTimeFormat("pt-BR", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -35,10 +35,16 @@ io.on("connection", (socket) => {
       minute: "numeric",
     }).format(time)
 
+    const shortTime = new Intl.DateTimeFormat("pt-BR", {
+      hour: "numeric",
+      minute: "numeric",
+    }).format(time)
+
     io.emit("responseMessage", {
       message,
       username,
-      time: formatedTime,
+      fullTime,
+      shortTime,
     })
   })
 })

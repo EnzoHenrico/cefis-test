@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from "react"
-import QuestionBody from "./QuestionData"
+import QuestionBody from "./QuestionBody"
 import { Question } from "@prisma/client"
 import { useSession } from "next-auth/react"
 
@@ -93,7 +93,7 @@ export default function QuestionSection({ courseId }: { courseId: string }) {
     <>
       <h3>Area de perguntas:</h3>
       <section className="questions-area">
-        <div className="accordion" id="accordionExample">
+        <div>
           {questionsList.map((question) => (
             <QuestionBody
               key={question.id}

@@ -107,9 +107,9 @@ export default function QuestionBody({
   }, [])
 
   return (
-    <div className="card text-bg mb-3">
-      <div className="card-header">{`Pergunta de: ${question.createdBy}`}</div>
+    <div className="card text-bg-light mb-3" style={{ border: "none" }}>
       <div className="card-body">
+        <h6 className="card-title">{`Pergunta de: ${question.createdBy}`}</h6>
         <p className="card-text">{question.content}</p>
         {question.replied ? (
           <ReplyData reply={replyData} />

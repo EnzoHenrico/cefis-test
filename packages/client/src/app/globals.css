@@ -19,6 +19,7 @@ main {
   flex-direction: column;
   flex: 1;
   overflow: scroll;
+  scrollbar-gutter: stable;
 }
 
 hr {

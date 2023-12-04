@@ -1,64 +1,64 @@
-import { Course, User } from "@prisma/client";
-import { PrismaInstance } from "../../../../prisma/client";
-import { NextRequest, NextResponse } from "next/server";
+import { Course, User } from "@prisma/client"
+import { PrismaInstance } from "../../../../prisma/client"
+import { NextRequest, NextResponse } from "next/server"
 
 // Find courses
 export async function GET(request: NextRequest) {
   try {
     // By ID
-    const params_id = request.nextUrl.searchParams.get("id");
+    const params_id = request.nextUrl.searchParams.get("id")
     if (params_id) {
       const prismaResponse: Course | null =
         await PrismaInstance.course.findUnique({
           where: {
             id: parseInt(params_id),
           },
-        });
-      return NextResponse.json(prismaResponse);
+        })
+      return NextResponse.json(prismaResponse)
     }
 
     // By title
-    const params_title = request.nextUrl.searchParams.get("title");
+    const params_title = request.nextUrl.searchParams.get("title")
     if (params_title) {
       const prismaResponse: Course | null =
         await PrismaInstance.course.findFirst({
           where: {
             title: params_title,
           },
-        });
-      return NextResponse.json(prismaResponse);
+        })
+      return NextResponse.json(prismaResponse)
     }
 
     // When no parametter return all courses
-    const prismaResponse: Course[] = await PrismaInstance.course.findMany();
-    return NextResponse.json(prismaResponse);
+    const prismaResponse: Course[] = await PrismaInstance.course.findMany()
+    return NextResponse.json(prismaResponse)
   } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 },
-    );
+      { status: 500 }
+    )
   }
 }
 
 // Add a new course
 export async function POST(request: NextRequest) {
   try {
-    const data: Course = await request.json();
-    const prismaResponse = await PrismaInstance.course.create({ data });
+    const data: Course = await request.json()
+    const prismaResponse = await PrismaInstance.course.create({ data })
 
-    return NextResponse.json(prismaResponse);
+    return NextResponse.json(prismaResponse)
   } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 },
-    );
+      { status: 500 }
+    )
   }
 }
 
 // Update course info
 export async function PATCH(request: NextRequest) {
   try {
-    const data: Course = await request.json();
+    const data: Course = await request.json()
     const prismaResponse = await PrismaInstance.course.update({
       where: {
         id: data.id,
@@ -66,33 +66,33 @@ export async function PATCH(request: NextRequest) {
       data: {
         ...data,
       },
-    });
+    })
 
-    return NextResponse.json(prismaResponse);
+    return NextResponse.json(prismaResponse)
   } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 },
-    );
+      { status: 500 }
+    )
   }
 }
 
 // Delete Course
 export async function DELETE(request: NextRequest) {
   try {
-    const data: User = await request.json();
+    const data: User = await request.json()
 
     const prismaResponse = await PrismaInstance.course.delete({
       where: {
         id: data.id,
       },
-    });
+    })
 
-    return NextResponse.json(prismaResponse);
+    return NextResponse.json(prismaResponse)
   } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 },
-    );
+      { status: 500 }
+    )
   }
 }

@@ -3,11 +3,15 @@ import { redirect, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import QuestionSection from "./Questions/QuestionSection"
 import ConfigButton from "./ConfigButton"
+import { useSession } from "next-auth/react"
 
 export default function CourseInfo() {
   const [courseData, setCourseData] = useState<Course>()
   const urlParams = useSearchParams()
   const paramId = urlParams.get("id")
+  const { data: session } = useSession()
+
+  console.log(session)
 
   let courseId: string
 
@@ -45,7 +49,11 @@ export default function CourseInfo() {
         }}
       >
         <h1>{courseData?.title ?? "Título do cruso"}</h1>
-        <ConfigButton courseData={courseData} />
+        {session?.user.role === "teacher" ? (
+          <ConfigButton courseData={courseData} />
+        ) : (
+          <></>
+        )}
       </div>
       <p>{courseData?.description ?? "Sem descrição."}</p>
       <hr />

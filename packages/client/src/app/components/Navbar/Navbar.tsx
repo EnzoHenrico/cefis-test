@@ -27,7 +27,7 @@ function Navbar() {
             </ul>
             <div className="d-flex">
               <a
-                className="nav-link active"
+                className="btn btn-outline-danger"
                 aria-current="page"
                 href="api/auth/signout"
               >

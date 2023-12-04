@@ -1,8 +1,8 @@
-import { Course } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { Course } from "@prisma/client"
+import { useEffect, useState } from "react"
 
 export default function CoursesList() {
-  const [coursesList, setCoursesList] = useState([] as Course[]);
+  const [coursesList, setCoursesList] = useState([] as Course[])
 
   // Get all courses from DB
   const getCourses = async () => {
@@ -10,20 +10,20 @@ export default function CoursesList() {
       const response: Response = await fetch("/api/course", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-      });
-      const course = await response.json();
-      setCoursesList(course);
+      })
+      const course = await response.json()
+      setCoursesList(course)
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
   useEffect(() => {
-    getCourses();
-  }, []);
+    getCourses()
+  }, [])
 
   return (
     <>
-      <div className="list-group">
+      <div className="list-group list-group-flush rounded">
         {coursesList.map((course) => (
           <a
             href={`/courses?id=${course.id}`}
@@ -40,5 +40,5 @@ export default function CoursesList() {
         ))}
       </div>
     </>
-  );
+  )
 }

@@ -23,7 +23,6 @@ const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL
 
 export default function Chat() {
   const socket = useRef<Socket<ServerToClientEvents, ClientToServerEvents>>()
-  const lastMessageDiv = useRef<HTMLDivElement>(null)
   const [history, setHistory] = useState<MessageData[]>()
   const { data: session } = useSession()
 
@@ -43,9 +42,6 @@ export default function Chat() {
           username: data.username,
           time: data.time,
         }
-
-        // Scroll to the last message div on every new message
-        lastMessageDiv.current?.scrollIntoView()
 
         if (!old) {
           return [newMessage]
@@ -86,26 +82,27 @@ export default function Chat() {
     <>
       <h3>Group Chat</h3>
       <hr />
-      <div className="chat bg-body-tertiary rounded-2 p-3" id="chat">
-        {history
-          ? history.map((data, index) => {
-              let isAuthor = false
-              if (data.username === session?.user.name) {
-                isAuthor = true
-              }
-              return (
-                <div
-                  key={index}
-                  className={isAuthor ? "message send" : "message received"}
-                  title={data.time}
-                >
-                  <small>{data.username}</small>
-                  <span>{data.message}</span>
-                </div>
-              )
-            })
-          : ""}
-        <div ref={lastMessageDiv}></div>
+      <div className="chat-wrapper">
+        <div className="chat bg-body-tertiary rounded-2 p-3" id="chat">
+          {history
+            ? history.map((data, index) => {
+                let isAuthor = false
+                if (data.username === session?.user.name) {
+                  isAuthor = true
+                }
+                return (
+                  <div
+                    key={index}
+                    className={isAuthor ? "message send" : "message received"}
+                    title={data.time}
+                  >
+                    <small>{data.username}</small>
+                    <span>{data.message}</span>
+                  </div>
+                )
+              })
+            : ""}
+        </div>
       </div>
       <form className="chat-input mt-3" onSubmit={handleSubmit}>
         <div className="mb-3">

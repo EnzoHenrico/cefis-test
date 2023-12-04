@@ -17,7 +17,8 @@ import "./style.css"
 type MessageData = {
   message: string
   username: string
-  time: string
+  fullTime: string
+  shortTime: string
 }
 const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL
 
@@ -40,7 +41,8 @@ export default function Chat() {
         const newMessage = {
           message: data.message,
           username: data.username,
-          time: data.time,
+          fullTime: data.fullTime,
+          shortTime: data.shortTime,
         }
 
         if (!old) {
@@ -94,10 +96,15 @@ export default function Chat() {
                   <div
                     key={index}
                     className={isAuthor ? "message send" : "message received"}
-                    title={data.time}
+                    title={data.fullTime}
                   >
-                    <small>{data.username}</small>
-                    <span>{data.message}</span>
+                    <div className="message-header">
+                      <span>{data.username}</span>
+                    </div>
+                    <div className="message-body">
+                      {data.message}
+                      <span>{data.shortTime}</span>
+                    </div>
                   </div>
                 )
               })
@@ -110,6 +117,7 @@ export default function Chat() {
             className="form-control"
             id="messageInput"
             name="messageInput"
+            autoComplete="off"
           ></input>
         </div>
         <div className="col-auto">

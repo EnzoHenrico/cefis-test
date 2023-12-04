@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
   })
 })
 
-const PORT = process.env.SERVER_PORT
+const PORT = process.env.PORT
 
 server.listen(PORT, () => {
   console.log(`Socket.io server is running on port ${PORT}`)

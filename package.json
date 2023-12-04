@@ -5,6 +5,10 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "start:server": "cd packages/server && npm run start",
+    "build:server": "cd packages/server && npm run build"
+  },
   "devDependencies": {
     "eslint": "^8",
     "eslint-config-next": "14.0.3",

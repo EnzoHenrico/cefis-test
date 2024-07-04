@@ -1,9 +1,5 @@
 ## Informações
 
-### Link de acesso
-
-- https://cefis-test-deploy.vercel.app/
-
 ### Tecnologias utilizadas
 
 - Node.js 20.10.0 LTS
